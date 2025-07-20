@@ -52,9 +52,10 @@ async def create_order_services(order_request: CreateOrder):
 
 
 async def get_orders_service(
+    user_id: str,
     limit: Optional[int] = Query(10),
     offset: Optional[int] = Query(0)
 ):
-    query={}
+    query={"userId": user_id}
     responce = await orders_collection.find(query).skip(offset).limit(limit).to_list()
     return responce
