@@ -39,6 +39,7 @@ src/
 - Connection configured in `src/configrations/db_configrations.py`
 
 ## Requirements
+- Python 3.12.5
 See `requirements.txt` for all dependencies. Key packages:
 - fastapi
 - motor
