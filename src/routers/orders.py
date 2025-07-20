@@ -1,8 +1,8 @@
 from fastapi import APIRouter,HTTPException
-from configrations.db_configrations import orders_collection,products_collection
-from database.schemas import page_details, order_post, order_get
-from database.models import Order, CreateOrder, OrderDetails, ProductDetails
-from service.orderservice import create_order
+from src.configrations.db_configrations import orders_collection,products_collection
+from src.database.schemas import page_details, order_post, order_get
+from src.database.models import Order, CreateOrder, OrderDetails, ProductDetails
+from src.service.orderservice import create_order
 from bson import ObjectId
 from typing import Optional
 from fastapi import Query

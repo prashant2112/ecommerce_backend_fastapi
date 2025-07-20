@@ -1,7 +1,7 @@
 from fastapi import APIRouter,HTTPException
-from configrations.db_configrations import products_collection
-from database.schemas import product_post, product_get, page_details
-from database.models import Product, SizeEnum
+from src.configrations.db_configrations import products_collection
+from src.database.schemas import product_post, product_get, page_details
+from src.database.models import Product, SizeEnum
 from typing import Optional
 from fastapi import Query
 
