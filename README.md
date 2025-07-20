@@ -1,6 +1,6 @@
 # Ecommerce Backend FastAPI App
 
-This is a FastAPI-based backend for an e-commerce application. It provides RESTful APIs for managing products and orders, using MongoDB as the database (via Motor async driver).
+This is a FastAPI-based backend for an e-commerce application. It provides APIs for managing products and orders, using MongoDB as the database using motor.
 
 ## Features
 - **Product Management**: Create and search products with size and quantity options.
@@ -10,18 +10,18 @@ This is a FastAPI-based backend for an e-commerce application. It provides RESTf
 ## Project Structure
 ```
 src/
-  main.py                # FastAPI entrypoint
-  configrations/
-    db_configrations.py  # MongoDB connection and collections
-  database/
-    models.py            # Pydantic models for Product, Order, etc.
-    schemas.py           # Serialization/deserialization helpers
-  routers/
-    products.py          # Product-related API routes
-    orders.py            # Order-related API routes
-  service/
-    orderservice.py      # Business logic for orders
-    productservice.py    # (Empty, placeholder for product logic)
+ |--main.py                # FastAPI entrypoint
+ |--configrations/
+ |  |--db_configrations.py  # MongoDB connection and collections
+ |--database/
+ |  |--models.py            # Pydantic models for Product, Order, etc.
+ |  |--schemas.py           # converts models in response dict
+ |--routers/
+ |  |--products.py          # Product-related API routes
+ |  |--orders.py            # Order-related API routes
+ |--service/
+ |  |--orderservice.py      # Business logic for orders
+ |  |--productservice.py    # Business logic for products
 ```
 
 ## API Endpoints
