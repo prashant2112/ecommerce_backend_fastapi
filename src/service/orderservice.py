@@ -5,9 +5,8 @@ from bson import ObjectId
 from typing import Optional
 from fastapi import Query
 
-async def create_order(order_request: CreateOrder):
+async def create_order_services(order_request: CreateOrder):
     # Process order
-    
     product_ids = []
     product_qty_map = {}
     for item in order_request.items:
@@ -47,6 +46,15 @@ async def create_order(order_request: CreateOrder):
         order_details_list.append(order_details)
 
     new_order = Order(userId=order_request.userId, items=order_details_list, total=total)
-
     added = await orders_collection.insert_one(new_order.model_dump(by_alias=True))
     return added
+
+
+
+async def get_orders_service(
+    limit: Optional[int] = Query(10),
+    offset: Optional[int] = Query(0)
+):
+    query={}
+    responce = await orders_collection.find(query).skip(offset).limit(limit).to_list()
+    return responce
