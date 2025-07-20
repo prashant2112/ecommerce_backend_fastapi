@@ -2,14 +2,16 @@ from fastapi import APIRouter,HTTPException
 from src.configrations.db_configrations import products_collection
 from src.database.schemas import product_post, product_get, page_details
 from src.database.models import Product, SizeEnum
+from src.service.productservice import Create_Product_service, search_products_service
 from typing import Optional
 from fastapi import Query
+
 
 router = APIRouter()
 
 @router.post("/", status_code=201)
 async def Create_Product(new_product: Product):
-    added = await products_collection.insert_one(new_product.model_dump(by_alias=True))
+    added = await Create_Product_service(new_product)
     return {"id":str(added.inserted_id)}
 
 
@@ -21,13 +23,5 @@ async def search_products(
     limit: Optional[int] = Query(10),
     offset: Optional[int] = Query(0)
 ):
-    query = {}
-
-    if name:
-        query["name"] = { "$regex": f".*{name}.*"}
-
-    if size:
-        query["sizes.size"] = size
-
-    responce = await products_collection.find(query).skip(offset).limit(limit).to_list()
+    responce = await search_products_service(name, size, limit, offset)
     return {"data":[ product_get(product) for product in responce], "page":[ page_details(limit,offset) ] }
