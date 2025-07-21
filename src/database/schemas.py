@@ -1,3 +1,4 @@
+# This file contains the schemas for the database models used in the application.
 def product_post(product):
     return{
         "id": str(product["_id"])

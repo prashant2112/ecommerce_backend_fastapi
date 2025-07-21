@@ -1,5 +1,5 @@
-from fastapi import APIRouter,HTTPException
-from src.configrations.db_configrations import products_collection
+from fastapi import APIRouter
+# from src.configrations.db_configrations import products_collection
 from src.database.schemas import product_post, product_get, page_details
 from src.database.models import Product, SizeEnum
 from src.service.productservice import Create_Product_service, search_products_service
@@ -9,13 +9,14 @@ from fastapi import Query
 
 router = APIRouter()
 
+# Endpoint to create a new product
 @router.post("/", status_code=201)
 async def Create_Product(new_product: Product):
     added = await Create_Product_service(new_product)
     return {"id":str(added.inserted_id)}
 
 
-
+# Endpoint to search for products
 @router.get("/")
 async def search_products(
     name: Optional[str] = Query(None),

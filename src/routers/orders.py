@@ -1,19 +1,20 @@
-from fastapi import APIRouter,HTTPException
-from src.configrations.db_configrations import orders_collection,products_collection
-from src.database.schemas import page_details, order_post, order_get
-from src.database.models import Order, CreateOrder, OrderDetails, ProductDetails
+from fastapi import APIRouter
+from src.database.schemas import page_details, order_get
+from src.database.models import CreateOrder
 from src.service.orderservice import create_order_services,get_orders_service
-from bson import ObjectId
 from typing import Optional
 from fastapi import Query
 
+# Router for order-related endpoints
 router = APIRouter()
 
+# Endpoint to create a new order
 @router.post("/", status_code=201)
 async def create_order_endpoint(order_request: CreateOrder):
     added = await create_order_services(order_request)
     return {"id":str(added.inserted_id)} 
 
+# Endpoint to get orders for a specific user
 @router.get('/{user_id}')
 async def get_orders(
     user_id: str,

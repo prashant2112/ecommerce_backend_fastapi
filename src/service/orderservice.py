@@ -12,13 +12,13 @@ async def create_order_services(order_request: CreateOrder):
     for item in order_request.items:
         product_ids.append(ObjectId(item.productId))
         product_qty_map[item.productId] = item.qty
-    print(product_ids)
+    
     total = 0.0
     order_details_list = []
-    product_query = {"_id":{"$in": product_ids}}
-    print(product_query)
+    product_query = {"_id":{"$in": product_ids}} # Fetch products by IDs
+    # Fetch products from the database
     product_list = await products_collection.find(product_query).to_list()
-    print(product_list)
+    
     for product in product_list:
         # Todos:
         """ avoiding the size based quantity check for now beacouse the order request dosen't have a size field"""
@@ -38,13 +38,15 @@ async def create_order_services(order_request: CreateOrder):
         # create and append order details
         product_name = product["name"]
 
+        # create ProductDetails
         product_details = ProductDetails(name=product_name, id=product_id)
 
+        # create OrderDetails
         order_details = OrderDetails(productdetails=product_details, qty=order_qty)
         print(order_details)
 
         order_details_list.append(order_details)
-
+    # create Order
     new_order = Order(userId=order_request.userId, items=order_details_list, total=total)
     added = await orders_collection.insert_one(new_order.model_dump(by_alias=True))
     return added
@@ -56,6 +58,8 @@ async def get_orders_service(
     limit: Optional[int] = Query(10),
     offset: Optional[int] = Query(0)
 ):
-    query={"userId": user_id}
-    responce = await orders_collection.find(query).skip(offset).limit(limit).to_list()
+    # Fetch orders for the user
+    query={"userId": user_id} # filter by userId
+    # Fetch orders from the database
+    responce = await orders_collection.find(query).skip(offset).limit(limit).to_list() 
     return responce

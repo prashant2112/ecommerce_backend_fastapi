@@ -6,6 +6,7 @@ from typing import Optional
 from fastapi import Query
 
 async def Create_Product_service(new_product: Product):
+    # Validate product data
     added = await products_collection.insert_one(new_product.model_dump(by_alias=True))
     return added
 
@@ -16,11 +17,12 @@ async def search_products_service(
     limit: Optional[int] = Query(10),
     offset: Optional[int] = Query(0)
 ):
+    # Validate search parameters
     query = {}
     if name:
         query["name"] = { "$regex": f".*{name}.*"}
     if size:
-        query["sizes.size"] = size
-
+        query["sizes.size"] = sizeS
+    # Fetch products from the database
     responce = await products_collection.find(query).skip(offset).limit(limit).to_list()
     return responce
